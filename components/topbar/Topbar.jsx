@@ -6,8 +6,11 @@ import {
   HiOutlineUserCircle,
   HiOutlineChevronDown,
 } from "react-icons/hi2";
+import { useAuth } from "../../context/AuthContext";
 
 const Topbar = ({ setMobileOpen }) => {
+  const { user } = useAuth();
+
   return (
     <header
       className="
@@ -30,7 +33,7 @@ const Topbar = ({ setMobileOpen }) => {
 
         <div>
           <h2 className="font-bold text-xl text-gray-800">Dashboard</h2>
-          <p className="text-sm text-gray-500 mt-1">Welcome back 👋</p>
+          <p className="text-sm text-gray-500 mt-1">Welcome back</p>
         </div>
       </div>
 
@@ -73,9 +76,11 @@ const Topbar = ({ setMobileOpen }) => {
 
           <div className="hidden md:block">
             <h4 className="text-sm font-semibold text-gray-800">
-              Sylva Harris
+              {user?.name || "EduBuddy User"}
             </h4>
-            <p className="text-xs text-gray-500">Teacher</p>
+            <p className="text-xs text-gray-500 capitalize">
+              {(user?.role || "teacher").replace("-", " ")}
+            </p>
           </div>
 
           <HiOutlineChevronDown className="hidden md:block text-gray-400" />

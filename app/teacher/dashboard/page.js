@@ -1,11 +1,20 @@
 "use client";
 
+/**
+ * Teacher dashboard page: protected teacher workspace showing overview stats,
+ * attendance insight, subject performance, schedule, assignments, and events.
+ */
+
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import DashboardLayout from "../../../components/dashboard/DashboardLayout";
+import DashboardSkeleton from "../../../components/dashboard/DashboardSkeleton";
 import Card from "../../../components/ui/Card";
 
 import { getTeacherDashboardData } from "../../../services/teacherDashboardService";
+import { getDashboardPath } from "../../../services/authService";
+import { useAuth } from "../../../context/AuthContext";
 
 import {
   HiOutlineUsers,
@@ -19,10 +28,31 @@ import {
 } from "react-icons/hi2";
 
 const TeacherDashboard = () => {
+  const router = useRouter();
+  const { user, authReady } = useAuth();
+
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!authReady) return;
+
+    // Dashboard guard: teachers must complete onboarding before seeing data.
+    if (!user) {
+      router.replace("/login");
+      return;
+    }
+
+    if (user.role !== "teacher") {
+      router.replace(getDashboardPath(user.role));
+      return;
+    }
+
+    if (user.role === "teacher" && !user.onboarded) {
+      router.replace("/onboarding/teacher");
+      return;
+    }
+
     const fetchData = async () => {
       setLoading(true);
 
@@ -34,14 +64,10 @@ const TeacherDashboard = () => {
     };
 
     fetchData();
-  }, []);
+  }, [authReady, router, user]);
 
-  if (loading) {
-    return (
-      <DashboardLayout>
-        <div className="p-6 text-gray-500">Loading dashboard...</div>
-      </DashboardLayout>
-    );
+  if (!authReady || loading || !user || user.role !== "teacher" || !user.onboarded) {
+    return <DashboardSkeleton />;
   }
 
   return (

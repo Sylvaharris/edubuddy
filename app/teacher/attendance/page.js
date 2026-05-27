@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * Teacher attendance page: lets teachers review attendance stats and manage
+ * student attendance records for their classes.
+ */
+
 import { useState } from "react";
 
 import DashboardLayout from "../../../components/dashboard/DashboardLayout";

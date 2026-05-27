@@ -5,10 +5,16 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { useAuth } from "../../context/AuthContext";
+import { getDashboardPath } from "../../services/authService";
 
 import Button from "../ui/Button";
 
-import { HiOutlineEnvelope, HiOutlineLockClosed } from "react-icons/hi2";
+import {
+  HiOutlineEnvelope,
+  HiOutlineEye,
+  HiOutlineEyeSlash,
+  HiOutlineLockClosed,
+} from "react-icons/hi2";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -16,6 +22,7 @@ const LoginForm = () => {
   const { login } = useAuth();
 
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "teacher@edubuddy.com",
@@ -56,7 +63,17 @@ const LoginForm = () => {
       return;
     }
 
-    router.push("/teacher/dashboard");
+    if (result.user.role === "teacher" && !result.user.onboarded) {
+      router.push("/onboarding/teacher");
+      return;
+    }
+
+    if (result.user.role === "school-admin" && !result.user.onboarded) {
+      router.push("/onboarding/admin");
+      return;
+    }
+
+    router.push(getDashboardPath(result.user.role));
   };
 
   return (
@@ -139,11 +156,11 @@ const LoginForm = () => {
           />
 
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             value={formData.password}
             onChange={handleChange}
-            placeholder="••••••••"
+            placeholder="Password"
             className="
             flex-1
             ml-3
@@ -151,6 +168,19 @@ const LoginForm = () => {
             bg-transparent
             "
           />
+
+          <button
+            type="button"
+            onClick={() => setShowPassword((current) => !current)}
+            className="ml-3 text-gray-400 hover:text-gray-700 transition"
+            aria-label={showPassword ? "Hide password" : "Show password"}
+          >
+            {showPassword ? (
+              <HiOutlineEyeSlash className="text-xl" />
+            ) : (
+              <HiOutlineEye className="text-xl" />
+            )}
+          </button>
         </div>
       </div>
 
@@ -221,7 +251,18 @@ const LoginForm = () => {
         leading-relaxed
         "
       >
-        By continuing, you agree to our Terms of Service and Privacy Policy.
+        By continuing, you agree to our{" "}
+        <Link href="/terms" className="text-primary font-semibold hover:underline">
+          Terms of Service
+        </Link>{" "}
+        and{" "}
+        <Link
+          href="/privacy"
+          className="text-primary font-semibold hover:underline"
+        >
+          Privacy Policy
+        </Link>
+        .
       </p>
     </form>
   );

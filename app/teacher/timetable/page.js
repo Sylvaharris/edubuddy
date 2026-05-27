@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * Teacher timetable page: displays class schedules, upcoming sessions, and the
+ * timetable creation workflow.
+ */
+
 import { useState } from "react";
 
 import DashboardLayout from "../../../components/dashboard/DashboardLayout";

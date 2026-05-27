@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * Teacher students page: provides student search, filters, stats, profiles,
+ * notes, and parent messaging tools.
+ */
+
 import { useMemo, useState } from "react";
 
 import DashboardLayout from "../../../components/dashboard/DashboardLayout";

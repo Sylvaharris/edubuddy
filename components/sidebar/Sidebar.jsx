@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 import sidebarLinks from "../../constants/sidebarLinks";
+import { useAuth } from "../../context/AuthContext";
 
 import {
   HiOutlineChevronLeft,
@@ -16,9 +17,10 @@ import {
 const Sidebar = ({ collapsed, setCollapsed, mobileOpen, setMobileOpen }) => {
   const pathname = usePathname();
   const router = useRouter();
+  const { user } = useAuth();
 
-  const role = "teacher";
-  const links = sidebarLinks[role];
+  const role = user?.role || "teacher";
+  const links = sidebarLinks[role] || sidebarLinks.teacher;
 
   const handleLogout = () => {
     localStorage.removeItem("edubuddy-user");

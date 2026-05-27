@@ -1,3 +1,8 @@
+/**
+ * Login page: authenticates existing users and routes them to the correct
+ * role dashboard or teacher onboarding flow.
+ */
+
 import Image from "next/image";
 
 import LoginForm from "../../components/auth/LoginForm";

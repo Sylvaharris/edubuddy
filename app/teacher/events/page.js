@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * Teacher events page: manages school events with calendar, cards, stats,
+ * toolbars, AI suggestions, and event detail modals.
+ */
+
 import { useState } from "react";
 
 import DashboardLayout from "../../../components/dashboard/DashboardLayout";

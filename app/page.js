@@ -1,3 +1,8 @@
+/**
+ * Home page: shows the EduBuddy product entry screen with high-level school
+ * management stats and a primary get-started action.
+ */
+
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 

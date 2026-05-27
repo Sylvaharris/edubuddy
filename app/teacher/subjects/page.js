@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * Teacher subjects page: manages subject cards, curriculum, resources,
+ * materials, search, filtering, and subject selection.
+ */
+
 import { useMemo, useState } from "react";
 
 import DashboardLayout from "../../../components/dashboard/DashboardLayout";

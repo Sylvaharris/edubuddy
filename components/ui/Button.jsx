@@ -7,11 +7,13 @@ const Button = ({
   type = "button",
   fullWidth = false,
   variant = "primary", // primary | secondary
+  disabled = false,
 }) => {
   return (
     <button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       className={`
         flex items-center justify-center gap-2
 
@@ -30,6 +32,7 @@ const Button = ({
         shadow-soft hover:shadow-medium
 
         ${fullWidth ? "w-full" : "w-fit"}
+        ${disabled ? "opacity-60 cursor-not-allowed hover:translate-y-0" : ""}
 
         ${
           variant === "primary"
@@ -40,7 +43,7 @@ const Button = ({
       style={
         variant === "primary"
           ? {
-              background: "var(--primary)",
+              background: "var(--primary-solid)",
             }
           : {}
       }
